@@ -13,7 +13,8 @@ from numba.decorators import jit
 from numba.types import float64
 from numpy import nextafter
 '''
-# Calculate addition, subtraction, multiplication, division and root with rounding mode.
+# Calculate addition, subtraction, multiplication, division and root
+with rounding mode.
 
 # using exsample
 from pint import roundfloat as rf
@@ -56,6 +57,7 @@ LM53PLM105 = (ldexp(1, -53) + ldexp(1, -105))
 floatinf = float("inf")
 floatmax = float_info.max
 
+
 @jit
 def split(a):
     tmp = a * (L27P1)
@@ -63,10 +65,12 @@ def split(a):
     y = a - x
     return x, y
 
+
 @jit([float64(float64)])
 def succ(a):
     s = nextafter(a, 1)
     return s
+
 
 @jit([float64(float64)])
 def pred(a):
@@ -75,6 +79,8 @@ def pred(a):
 
 # by Masahide Kashiwagi
 # http://verifiedby.me/adiary/029
+
+
 @jit
 def fasttwosum(a, b):
     x = a + b
@@ -82,12 +88,14 @@ def fasttwosum(a, b):
     y = b - tmp
     return x, y
 
+
 @jit
 def twosum_type1(a, b):
     x = a + b
     tmp = x - a
     y = (a - (x - tmp)) + (b - tmp)
     return x, y
+
 
 @jit
 def twosum_type2(a, b):
@@ -102,6 +110,7 @@ def twosum_type2(a, b):
 
 # setting twosum type
 twosum = twosum_type2
+
 
 @jit
 def twoproduct(a, b):
@@ -120,10 +129,11 @@ def twoproduct(a, b):
     aH, aL = split(arg1fix)
     bH, bL = split(arg2fix)
     if fabs(x) > L1023:
-        y = aL * bL - ((((x * 0.5) - (aH * 0.5) * bH) * 2. - aL * bH) - aH * bL)
+        y = aL * bL - (((x * 0.5) - (aH * 0.5) * bH) * 2. - aL * bH) - aH * bL
     else:
         y = aL * bL - (((x - aH * bH) - aL * bH) - aH * bL)
     return x, y
+
 
 @jit
 def rdadd_up(a, b):
@@ -139,6 +149,7 @@ def rdadd_up(a, b):
         x = succ(x)
     return x
 
+
 @jit
 def rdadd_down(a, b):
     x, y = twosum(a, b)
@@ -153,6 +164,7 @@ def rdadd_down(a, b):
         return pred(x)
     return x
 
+
 def rdadd(a, b, rmode=roundmode.nearest):
     if rmode == roundmode.up:
         return rdadd_up(a, b)
@@ -161,14 +173,18 @@ def rdadd(a, b, rmode=roundmode.nearest):
     elif rmode == roundmode.nearest:
         return a + b
 
+
 def rdsub_up(a, b):
     return rdadd_up(a, -b)
+
 
 def rdsub_down(a, b):
     return rdadd_down(a, -b)
 
+
 def rdsub(a, b, rmode=roundmode.nearest):
     return rdadd(a, -b, rmode)
+
 
 @jit
 def rdmul_up(a, b):
@@ -184,6 +200,7 @@ def rdmul_up(a, b):
         if y > 0:
             return succ(x)
     return x
+
 
 @jit
 def rdmul_down(a, b):
@@ -205,6 +222,7 @@ def rdmul_down(a, b):
             return pred(x)
     return x
 
+
 def rdmul(a, b, rmode=roundmode.nearest):
     if rmode == roundmode.up:
         return rdmul_up(a, b)
@@ -212,6 +230,7 @@ def rdmul(a, b, rmode=roundmode.nearest):
         return rdmul_down(a, b)
     elif rmode == roundmode.nearest:
         return a * b
+
 
 @jit
 def rddiv_up(a, b):
@@ -244,6 +263,7 @@ def rddiv_up(a, b):
         return succ(d)
     return d
 
+
 @jit
 def rddiv_down(a, b):
     if a == 0. or b == 0.:
@@ -275,6 +295,7 @@ def rddiv_down(a, b):
         return pred(d)
     return d
 
+
 def rddiv(a, b, rmode=roundmode.nearest):
     if rmode == roundmode.up:
         return rddiv_up(a, b)
@@ -282,6 +303,7 @@ def rddiv(a, b, rmode=roundmode.nearest):
         return rddiv_down(a, b)
     elif rmode == roundmode.nearest:
         return a / b
+
 
 @jit
 def rdsqrt_up(a):
@@ -297,6 +319,7 @@ def rdsqrt_up(a):
         return succ(d)
     return d
 
+
 @jit
 def rdsqrt_down(a):
     d = sqrt(a)
@@ -310,6 +333,7 @@ def rdsqrt_down(a):
     if x > a or (x == a and y > 0.):
         return pred(d)
     return d
+
 
 def rdsqrt(a, rmode=roundmode.nearest):
     if rmode == roundmode.up:
