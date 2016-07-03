@@ -105,3 +105,50 @@ class DD:
 
     def abs(self):
         return ddmath.fabs(self)
+
+    def __abs__(self):
+        return self.abs()
+
+    def __lt__(self, arg):
+        arg = DD.dd(arg)
+        if self.high < arg.high:
+            return True
+        elif self.high > arg.low:
+            return False
+        else:
+            return self.low < arg.low
+
+    def __le__(self, arg):
+        arg = DD.dd(arg)
+        if self.high < arg.high:
+            return True
+        elif self.high > arg.low:
+            return False
+        else:
+            return self.low <= arg.low
+
+    def __eq__(self, arg):
+        arg = DD.dd(arg)
+        return self.high == arg.high and self.low == arg.low
+
+    def __ne__(self, arg):
+        arg = DD.dd(arg)
+        return self.high != arg.high or self.low != arg.low
+
+    def __gt__(self, arg):
+        arg = DD.dd(arg)
+        if self.high > arg.high:
+            return True
+        elif self.high < arg.low:
+            return False
+        else:
+            return self.low > arg.low
+
+    def __ge__(self, arg):
+        arg = DD.dd(arg)
+        if self.high > arg.high:
+            return True
+        elif self.high < arg.low:
+            return False
+        else:
+            return self.low >= arg.low
