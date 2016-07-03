@@ -119,3 +119,13 @@ def verified_digits(x, y):
         tf.append(False)
         digits += tf.index(False) + 1
     return digits
+
+@jit
+def addtowardzero(x, y):
+    '''
+    Add y toward 0
+    addtowardzero(2, 1) == 1
+    addtowardzero(-2, 1) == -1
+    '''
+    sign = 1 if x >= 0 else -1
+    return sign * (abs(x) - y)
