@@ -4,7 +4,7 @@
 from decimal import Decimal
 from feccc.roundfloat import twosum, twoproduct
 from math import isinf
-
+from feccc import ddbasicmath as ddmath
 
 # TODO: Debug for some numbers (inf, 0...)
 # TODO: Increase performance with numba
@@ -15,6 +15,13 @@ class DD:
     def __init__(self, high=0, low=0):
         self.high = high
         self.low = low
+
+    @staticmethod
+    def dd(high=0, low=0):
+        # TODO: Add string init
+        if high.__class__.__name__ == 'DD':
+            return DD(high.high, high.low)
+        return DD(high, low)
 
     def __str__(self):
         # high = Decimal(self.high)
@@ -96,9 +103,5 @@ class DD:
     def __itruediv__(self, arg):
         return DD.__truediv__(self, arg)
 
-    @staticmethod
-    def dd(high=0, low=0):
-        # TODO: Add string init
-        if high.__class__.__name__ == 'DD':
-            return DD(high.high, high.low)
-        return DD(high, low)
+    def abs(self):
+        return ddmath.fabs(self)
