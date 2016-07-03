@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from decimal import Decimal
-from feccc import roundfloat as rf
 from feccc.roundfloat import twosum, twoproduct
 from math import isinf
 
@@ -23,7 +22,7 @@ class DD:
         # return str(high + low)
 
         # debug mode
-        return str(self.high) + " " + str(self.low)
+        return str(self.high) + ' ' + str(self.low)
 
     def __repr__(self):
         return str(self)
@@ -37,7 +36,8 @@ class DD:
     def __add__(self, arg):
         arg = DD.dd(arg)
         high, low = twosum(self.high, arg.high)
-        # TODO: Fix for inf
+        if isinf(high):
+            return DD(high)
         low += self.low + arg.low
         high, low = twosum(high, low)
         return DD(high, low)
@@ -60,8 +60,9 @@ class DD:
     def __mul__(self, arg):
         arg = DD.dd(arg)
         high, low = twoproduct(self.high, arg.high)
-        # TODO: Fix for inf
-        low *= self.high * arg.low + self.low * arg.high + self.low * arg.low
+        if isinf(high):
+            return DD(high)
+        low += self.high * arg.low + self.low * arg.high + self.low * arg.low
         high, low = twosum(high, low)
         return DD(high, low)
 
@@ -75,9 +76,9 @@ class DD:
         arg = DD.dd(arg)
         high = self.high / arg.high
         if isinf(high):
-            return DD(high, 0)
+            return DD(high)
         if isinf(arg.high):
-            return DD(high, 0)
+            return DD(high)
         h2, l2 = twoproduct(-high, arg.high)
         if isinf(h2):
             h2, l2 = twoproduct(-high, arg.high * 0.5)
