@@ -3,6 +3,7 @@
 
 from enum import IntEnum
 
+
 class roundmode(IntEnum):
     '''
     rounding mode such as INTLAB
@@ -10,3 +11,5 @@ class roundmode(IntEnum):
     up = 1
     nearest = 0
     down = -1
+    # TODO: Create round to zero mode
+    # tozero = 
