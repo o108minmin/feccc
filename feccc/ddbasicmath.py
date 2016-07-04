@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import math
-from math import fabs
 from feccc import ddbasic
 from numba.decorators import jit
+from feccc.roundfloat import twosum, twoproduct
 
 # TODO: Increase performance with numba
 
@@ -34,3 +34,21 @@ def pow(x, y):
 
 def ldexp(base, e):
     return base * pow(ddbasic.DD.dd(2.), e)
+
+def floor(x):
+    high = math.floor(x.high)
+    if high != x.high:
+        return ddbasic.DD.dd(high)
+    else:
+        low = math.floor(x.low)
+        ansH, ansL = twosum(high, low)
+        return ddbasic.DD.dd(ansH, ansL)
+
+def ceil(x):
+    high = math.ceil(x.high)
+    if high != x.high:
+        return ddbasic.DD.dd(high)
+    else:
+        low = math.ceil(x.low)
+        ansH, ansL = twosum(high, low)
+        return ddbasic.DD.dd(ansH, ansL)
