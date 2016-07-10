@@ -68,13 +68,13 @@ def split(a):
 
 @jit([float64(float64)])
 def succ(a):
-    s = nextafter(a, 1)
+    s = nextafter(a, float('inf'))
     return s
 
 
 @jit([float64(float64)])
 def pred(a):
-    r = nextafter(a, -1)
+    r = nextafter(a, float('-inf'))
     return r
 
 # by Masahide Kashiwagi
