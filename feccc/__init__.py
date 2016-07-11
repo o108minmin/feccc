@@ -3,11 +3,13 @@
 
 from .roundmode import roundmode
 from .ddbasic import DD
+from .ddarray import DDarray
 from feccc import ddbasicmath
 from feccc import roundfloat
 from feccc import floattool
 
 dd = DD.dd
+ddarray = DDarray.ddarray
 
 __all__ = (
     'roundmode',
@@ -15,4 +17,5 @@ __all__ = (
     'floattool',
     'ddbasic',
     'ddbasicmath'
+    'ddarray'
 )
