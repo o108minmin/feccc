@@ -164,6 +164,7 @@ def rdadd_down(a, b):
         return pred(x)
     return x
 
+
 @jit
 def rdadd_own(a, b):
     x, y = twosum(a, b)
@@ -326,9 +327,9 @@ def rddiv_own(a, b):
             bfix *= L105
         else:
             if afix < 0.:
-                return -LM1074
+                return -LM1074, 0
             else:
-                return 0
+                return 0, 0
     d = afix / bfix
     if d == floatinf:
         return floatmax
