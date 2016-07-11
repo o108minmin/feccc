@@ -296,6 +296,36 @@ def rddiv_down(a, b):
     return d
 
 
+@jit
+def rddiv_own(a, b):
+    if a == 0. or b == 0.:
+        return a / b
+    if fabs(a) == floatinf or fabs(b) == floatinf or isnan(a) or isnan(b):
+        return a / b
+    if b < 0.:
+        afix = -a
+        bfix = -b
+    else:
+        afix = a
+        bfix = b
+    if fabs(afix) < LM969:
+        if fabs(bfix) < L918:
+            afix *= L105
+            bfix *= L105
+        else:
+            if afix < 0.:
+                return -LM1074
+            else:
+                return 0
+    d = afix / bfix
+    if d == floatinf:
+        return floatmax
+    elif d == -floatinf:
+        return d
+    x, y = twoproduct(d, bfix)
+    return d, y
+
+
 def rddiv(a, b, rmode=roundmode.nearest):
     if rmode == roundmode.up:
         return rddiv_up(a, b)
