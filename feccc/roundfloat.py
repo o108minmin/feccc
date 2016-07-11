@@ -164,6 +164,18 @@ def rdadd_down(a, b):
         return pred(x)
     return x
 
+@jit
+def rdadd_own(a, b):
+    x, y = twosum(a, b)
+    if x == floatinf:
+        return x, y
+    elif x == -floatinf:
+        if a == -floatinf or b == -floatinf:
+            return x, y
+        else:
+            return -floatmax, y
+    return x, y
+
 
 def rdadd(a, b, rmode=roundmode.nearest):
     if rmode == roundmode.up:
