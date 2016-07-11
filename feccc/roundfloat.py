@@ -236,6 +236,17 @@ def rdmul_down(a, b):
     return x
 
 
+@jit
+def rdmul_own(a, b):
+    x, y = twoproduct(a, b)
+    if x == floatinf:
+        if fabs(a) == floatinf or fabs(b) == floatinf:
+            return x, y
+        else:
+            return floatmax, y
+    return x, y
+
+
 def rdmul(a, b, rmode=roundmode.nearest):
     if rmode == roundmode.up:
         return rdmul_up(a, b)
