@@ -195,6 +195,10 @@ def rdsub_down(a, b):
     return rdadd_down(a, -b)
 
 
+def rdsub_own(a, b):
+    return rdadd_own(a, -b)
+
+
 def rdsub(a, b, rmode=roundmode.nearest):
     return rdadd(a, -b, rmode)
 
