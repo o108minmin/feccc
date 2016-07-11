@@ -393,6 +393,19 @@ def rdsqrt_down(a):
     return d
 
 
+@jit
+def rdsqrt_own(a):
+    d = sqrt(a)
+    if a < LM969:
+        a2 = a * L106
+        d2 = d * L53
+        x, y = twoproduct(d2, d2)
+        if x > a2 or (x == a2 and y > 0.):
+            d = pred(d)
+    x, y = twoproduct(d, d)
+    return d, y
+
+
 def rdsqrt(a, rmode=roundmode.nearest):
     if rmode == roundmode.up:
         return rdsqrt_up(a)
